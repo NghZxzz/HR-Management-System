@@ -1,0 +1,123 @@
+﻿@model X.PagedList.IPagedList<DoAnCoSo.Models.ApplicationUser>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@{
+    ViewData["Title"] = "QuanLyTK";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
+}
+
+<h1>QuanLyTK</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr class="table-warning">
+            <th>
+                Email
+            </th>
+            <th>
+                Tên
+            </th>
+            <th>
+                Họ
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Hình ảnh
+            </th>
+            <th>
+                Mã nhân viên
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr class="table-success">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.HinhAnh)" width="150" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaNhanVien)
+                </td>
+                <td>
+                    <a asp-action="Manage" asp-route-userId="@item.Id">Sửa vai trò</a> |
+                    <a asp-action="DeleteTK" asp-route-id="@item.Id">Xóa tài khoản</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="full padding_infor_info padding_top_20">
+    <div class="pagination button_section button_style2">
+        <!-- pagination -->
+        @Html.PagedListPager(Model, page => Url.Action("QuanLyTK", new { page = page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item btn-group mr-2" },
+       PageClasses = new[] { "page-link btn" },
+       UlElementClasses = new[] { "pagination" }
+   })
+    </div>
+</div>
+
+<style>
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        display: inline-flex;
+        padding-left: 0;
+        list-style: none;
+        border-radius: 0.25rem;
+    }
+
+        .pagination .page-item {
+            margin: 0 2px;
+        }
+
+            .pagination .page-item .page-link {
+                display: inline-block;
+                padding: 10px 15px;
+                border: 1px solid #dee2e6;
+                color: #007bff;
+                text-decoration: none;
+                background-color: #fff;
+                border-radius: 4px;
+            }
+
+                .pagination .page-item .page-link:hover {
+                    background-color: #e9ecef;
+                    border-color: #dee2e6;
+                }
+
+            .pagination .page-item.active .page-link {
+                z-index: 1;
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                color: #6c757d;
+                pointer-events: none;
+                background-color: #fff;
+                border-color: #dee2e6;
+            }
+</style>

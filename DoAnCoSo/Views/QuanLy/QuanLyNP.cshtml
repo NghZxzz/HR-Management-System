@@ -1,0 +1,150 @@
+﻿
+@model X.PagedList.IPagedList<DoAnCoSo.Models.NghiPhep>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@{
+    ViewData["Title"] = "QuanLyNP";
+    Layout = "~/Views/Shared/_LayoutQL.cshtml";
+}
+
+<h1>Quản Lý Đơn Nghỉ Phép</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr class="table-primary">
+            <th>
+                Mã đơn nghỉ phép
+            </th>
+            <th>
+                Tên nhân viên
+            </th>
+            <th>
+                Lý do
+            </th>
+            <th>
+                Ngày bắt đầu
+            </th>
+            <th>
+                Ngày kết thúc
+            </th>
+            <th>
+                Loại nghỉ phép
+            </th>
+            <th>
+                Ngày chỉnh sửa gần nhất
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr class="table-info">
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenNhanVien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LyDo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBatDau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiNghi)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayTao)
+                </td>
+                <td>
+                @if (item.TrangThai == "Đã Xét Duyệt")
+                {
+                    
+                        <div class="button_block"><button type="button" class="btn cur-p btn-success">@Html.DisplayFor(modelItem => item.TrangThai)</button></div>
+                    
+                }
+                    @if (item.TrangThai == "Từ Chối")
+                    {
+
+                        <div class="button_block"><button type="button" class="btn cur-p btn-danger">@Html.DisplayFor(modelItem => item.TrangThai)</button></div>
+
+                    }
+                    @if (item.TrangThai == "Chưa Xét Duyệt")
+                    {
+
+                        <div class="button_block"><button type="button" class="btn cur-p btn-secondary">@Html.DisplayFor(modelItem => item.TrangThai)</button></div>
+
+                    }
+                </td>
+            <td>
+                    <a asp-action="PheDuyetNghiPhep" asp-route-id="@item.Id">Phê Duyệt</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="full padding_infor_info padding_top_20">
+    <div class="pagination button_section button_style2">
+        <!-- pagination -->
+        @Html.PagedListPager(Model, page => Url.Action("QuanLyNP", new { page = page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item btn-group mr-2" },
+       PageClasses = new[] { "page-link btn" },
+       UlElementClasses = new[] { "pagination" }
+   })
+    </div>
+</div>
+
+<style>
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        display: inline-flex;
+        padding-left: 0;
+        list-style: none;
+        border-radius: 0.25rem;
+    }
+
+        .pagination .page-item {
+            margin: 0 2px;
+        }
+
+            .pagination .page-item .page-link {
+                display: inline-block;
+                padding: 10px 15px;
+                border: 1px solid #dee2e6;
+                color: #007bff;
+                text-decoration: none;
+                background-color: #fff;
+                border-radius: 4px;
+            }
+
+                .pagination .page-item .page-link:hover {
+                    background-color: #e9ecef;
+                    border-color: #dee2e6;
+                }
+
+            .pagination .page-item.active .page-link {
+                z-index: 1;
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .pagination .page-item.disabled .page-link {
+                color: #6c757d;
+                pointer-events: none;
+                background-color: #fff;
+                border-color: #dee2e6;
+            }
+</style>
